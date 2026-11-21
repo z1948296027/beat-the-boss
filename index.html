@@ -2,10 +2,23 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>解压乱打模拟器</title>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-touch-callout: none;
+    }
+    html, body {
+      touch-action: manipulation;
+      overscroll-behavior: none;
+      -webkit-user-select: none;
+      user-select: none;
+    }
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
       background: #0f172a;
@@ -935,6 +948,9 @@
       window.addEventListener('keyup', e => { if (e.code === 'KeyF' || e.key === 'f' || e.key === 'F') state.fHeld = false; });
       window.addEventListener('blur', () => { state.fHeld = false; state.btnFistHeld = false; });
       window.addEventListener('resize', resizeCanvas);
+      document.addEventListener('dblclick', e => e.preventDefault(), { passive: false });
+      document.addEventListener('gesturestart', e => e.preventDefault(), { passive: false });
+      document.addEventListener('gesturechange', e => e.preventDefault(), { passive: false });
 
       resizeCanvas(); updateHUD(); requestAnimationFrame(loop);
     })();
