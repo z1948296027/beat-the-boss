@@ -80,10 +80,19 @@
       margin-bottom: 12px;
     }
     canvas { width: 100%; height: 100%; display: block; cursor: pointer; }
-    .deskmate-btn {
+    .quick-bar {
       position: absolute;
       bottom: 10px;
       left: 10px;
+      right: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 6px;
+      pointer-events: none;
+    }
+    .quick-group { display: flex; gap: 6px; pointer-events: auto; }
+    .deskmate-btn {
       padding: 6px 10px;
       border-radius: 8px;
       border: 1px solid rgba(251, 191, 36, 0.65);
@@ -94,6 +103,7 @@
       cursor: pointer;
     }
     .deskmate-btn:active { transform: scale(0.95); }
+    .hidden { display: none !important; }
     .banner {
       display: none;
       position: absolute;
@@ -210,7 +220,16 @@
 
     <div class="canvas-wrap">
       <canvas id="game-canvas"></canvas>
-      <button id="deskmate-btn" class="deskmate-btn">🧑‍🎓 同桌给钱 +💰</button>
+      <div class="quick-bar">
+        <div class="quick-group">
+          <button id="deskmate-btn" class="deskmate-btn">🧑‍🎓 同桌给钱 +💰</button>
+          <button id="btn-latiao" class="deskmate-btn hidden" style="border-color:rgba(251,146,60,0.8); background:rgba(124,45,18,0.9);">🌶️ 吃辣条 <span id="latiao-count">x0</span></button>
+        </div>
+        <div class="quick-group">
+          <button id="btn-toygun" class="deskmate-btn hidden" style="border-color:rgba(56,189,248,0.8); background:rgba(14,116,144,0.9);">🔫 玩具枪 [6]</button>
+          <button id="btn-pistol" class="deskmate-btn hidden" style="border-color:rgba(251,113,133,0.85); background:rgba(159,18,57,0.92);">🔫 手枪 [7]</button>
+        </div>
+      </div>
 
       <div id="counter-banner" class="banner">
         <span id="counter-banner-text">🚨 老板反击中！血量狂掉！按住</span>
@@ -219,20 +238,51 @@
       </div>
 
       <div id="shop-overlay" class="overlay">
-        <div class="shop-card">
-          <div style="display:flex; justify-content:space-between; border-bottom:1px solid #334155; padding-bottom:6px; font-weight:700;">
+        <div class="shop-card" style="max-width:400px; max-height:310px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #334155; padding-bottom:6px; font-weight:700;">
             <span>🛒 黑市商店</span>
-            <span style="color:#facc15; font-family:monospace;">💰 <span id="shop-money-text">0</span></span>
-          </div>
-          <div class="shop-item">
-            <div>
-              <div style="font-weight:700; color:#c084fc; font-size:13px;">🧤 能量手套</div>
-              <div class="sub" style="margin-top:2px;">按住 F 持续出拳，60%概率一拳 <b style="color:#facc15;">100伤害</b></div>
+            <div style="display:flex; gap:8px; align-items:center;">
+              <span style="color:#facc15; font-family:monospace;">💰 <span id="shop-money-text">0</span></span>
+              <button id="close-shop-btn" class="pill-btn">关闭</button>
             </div>
-            <button id="buy-glove-btn" class="pill-btn" style="background:#f59e0b; color:#0f172a; border:none; padding:6px 10px;">💰 100 购买</button>
           </div>
-          <div class="sub" style="text-align:center;">同桌每3秒自动塞钱，也可点左下角「同桌给钱」</div>
-          <button id="close-shop-btn" class="pill-btn" style="width:100%; padding:7px;">返回游戏</button>
+          <div style="overflow-y:auto; display:flex; flex-direction:column; gap:7px; padding-right:2px;">
+            <div class="shop-item" style="border-color:rgba(249,115,22,0.45);">
+              <div>
+                <div style="font-weight:700; color:#fdba74; font-size:13px;">🌶️ 辣条 <span class="sub">(持有: <span id="shop-latiao-count">0</span>)</span></div>
+                <div class="sub">吃一包回 +15 血量 + 8秒增伤 20%</div>
+              </div>
+              <button id="buy-latiao-btn" class="pill-btn" style="background:#f59e0b; color:#0f172a; border:none;">💰 10</button>
+            </div>
+            <div class="shop-item" style="border-color:rgba(245,158,11,0.45);">
+              <div>
+                <div style="font-weight:700; color:#fcd34d; font-size:13px;">📦 辣条盒 (5包超值装)</div>
+                <div class="sub">一次得 5 包辣条，省 5 金币</div>
+              </div>
+              <button id="buy-latiaobox-btn" class="pill-btn" style="background:#f59e0b; color:#0f172a; border:none;">💰 45</button>
+            </div>
+            <div class="shop-item" style="border-color:rgba(56,189,248,0.45);">
+              <div>
+                <div style="font-weight:700; color:#7dd3fc; font-size:13px;">🔫 玩具枪 [6]</div>
+                <div class="sub">快速连射海绵弹，每发 42 伤害</div>
+              </div>
+              <button id="buy-toygun-btn" class="pill-btn" style="background:#f59e0b; color:#0f172a; border:none;">💰 60</button>
+            </div>
+            <div class="shop-item">
+              <div>
+                <div style="font-weight:700; color:#c084fc; font-size:13px;">🧤 能量手套 [按住F]</div>
+                <div class="sub">60% 概率一拳打出 100 伤害</div>
+              </div>
+              <button id="buy-glove-btn" class="pill-btn" style="background:#f59e0b; color:#0f172a; border:none;">💰 100</button>
+            </div>
+            <div class="shop-item" style="border-color:rgba(244,63,94,0.5);">
+              <div>
+                <div style="font-weight:700; color:#fda4af; font-size:13px;">🔫 手枪 [7]</div>
+                <div class="sub">高威力神装！每发稳定 135 伤害</div>
+              </div>
+              <button id="buy-pistol-btn" class="pill-btn" style="background:#f59e0b; color:#0f172a; border:none;">💰 160</button>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -285,8 +335,17 @@
       const shopBtn = document.getElementById('shop-btn');
       const shopOverlay = document.getElementById('shop-overlay');
       const buyGloveBtn = document.getElementById('buy-glove-btn');
+      const buyLatiaoBtn = document.getElementById('buy-latiao-btn');
+      const buyLatiaoBoxBtn = document.getElementById('buy-latiaobox-btn');
+      const buyToyGunBtn = document.getElementById('buy-toygun-btn');
+      const buyPistolBtn = document.getElementById('buy-pistol-btn');
+      const shopLatiaoCount = document.getElementById('shop-latiao-count');
       const closeShopBtn = document.getElementById('close-shop-btn');
       const deskmateBtn = document.getElementById('deskmate-btn');
+      const btnLatiao = document.getElementById('btn-latiao');
+      const latiaoCount = document.getElementById('latiao-count');
+      const btnToyGun = document.getElementById('btn-toygun');
+      const btnPistol = document.getElementById('btn-pistol');
       const counterBanner = document.getElementById('counter-banner');
       const counterBannerText = document.getElementById('counter-banner-text');
       const gameoverOverlay = document.getElementById('gameover-overlay');
@@ -305,7 +364,7 @@
       const btnReset = document.getElementById('btn-reset');
       const charBtns = document.querySelectorAll('.pill-btn[data-char]');
 
-      const TARGET_MAX_HP = 600, GLOVE_PRICE = 100;
+      const TARGET_MAX_HP = 600, GLOVE_PRICE = 100, LATIAO_PRICE = 10, LATIAOBOX_PRICE = 45, TOYGUN_PRICE = 60, PISTOL_PRICE = 160;
       const CHARACTERS = {
         boss: {
           name: '老板', plate: '总经理 · 老板', scene: 'office', suitColor: '#1e293b', shirtColor: '#f8fafc', tieColor: '#dc2626', hairStyle: 'combover', hairColor: '#334155', glasses: 'rect',
@@ -396,16 +455,24 @@
         } else if (type === 'ko' || type === 'cola') {
           const notes = type === 'ko' ? [523, 659, 784, 1046] : [440, 587, 784];
           notes.forEach((freq, idx) => { const o = ac.createOscillator(), g = ac.createGain(); o.type = 'sine'; o.frequency.setValueAtTime(freq, now + idx * 0.055); g.gain.setValueAtTime(0.2, now + idx * 0.055); g.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.055 + 0.16); o.connect(g); g.connect(ac.destination); o.start(now + idx * 0.055); o.stop(now + idx * 0.055 + 0.17); });
+        } else if (type === 'toygun') {
+          const o = ac.createOscillator(), g = ac.createGain(); o.type = 'square'; o.frequency.setValueAtTime(620, now); o.frequency.exponentialRampToValueAtTime(180, now + 0.09);
+          g.gain.setValueAtTime(0.22, now); g.gain.exponentialRampToValueAtTime(0.001, now + 0.1); o.connect(g); g.connect(ac.destination); o.start(now); o.stop(now + 0.11);
+        } else if (type === 'pistol') {
+          const b = ac.createBuffer(1, Math.floor(ac.sampleRate * 0.16), ac.sampleRate), d = b.getChannelData(0);
+          for (let i = 0; i < d.length; i++) d[i] = (Math.random() * 2 - 1) * Math.exp(-i / (d.length * 0.18));
+          const n = ac.createBufferSource(); n.buffer = b; const ng = ac.createGain(); ng.gain.setValueAtTime(0.55, now); ng.gain.exponentialRampToValueAtTime(0.001, now + 0.16);
+          n.connect(ng); ng.connect(ac.destination); n.start(now);
         }
       }
 
       const state = {
         charId: 'boss', hp: 100, maxHp: 100,
         targetHps: { boss: TARGET_MAX_HP, teacher: TARGET_MAX_HP, homeroom: TARGET_MAX_HP, principal: TARGET_MAX_HP },
-        crit: 0, maxCrit: 100, money: 0, hasEnergyGlove: false, defeats: 0, countersBroken: 0,
+        crit: 0, maxCrit: 100, money: 0, hasEnergyGlove: false, hasToyGun: false, hasPistol: false, latiao: 0, latiaoBuffTimer: 0, defeats: 0, countersBroken: 0,
         mode: 'normal', shopOpen: false, bossCounterHp: 100, activeWeapon: 'bat',
         fHeld: false, btnFistHeld: false,
-        lastFistTime: 0, lastBatTime: 0, lastSlapTime: 0, lastPhoneTime: 0, lastColaTime: 0, lastDeskmateClick: 0, deskmateAutoTimer: 0,
+        lastFistTime: 0, lastBatTime: 0, lastSlapTime: 0, lastPhoneTime: 0, lastColaTime: 0, lastToyGunTime: 0, lastPistolTime: 0, lastDeskmateClick: 0, deskmateAutoTimer: 0,
         shake: 0, bossRecoilX: 0, bossRecoilY: 0, bossRecoilRot: 0,
         bossHurtTimer: 0, bossDizzyTimer: 0, slapMarkTimer: 0, sootTimer: 0, explosionFlash: 0, healFlash: 0, energyFlash: 0,
         weaponAnim: null, fists: [], floatTexts: [], particles: [], bossProjectiles: [],
@@ -433,8 +500,9 @@
       }
 
       function damageTarget(dmg) {
+        const finalDmg = state.latiaoBuffTimer > 0 ? Math.round(dmg * 1.2) : dmg;
         const id = state.charId;
-        state.targetHps[id] = Math.max(0, state.targetHps[id] - dmg);
+        state.targetHps[id] = Math.max(0, state.targetHps[id] - finalDmg);
         if (state.targetHps[id] <= 0) {
           const bc = getBossCenter();
           state.defeats++; state.money += 60; state.targetHps[id] = TARGET_MAX_HP;
@@ -443,6 +511,7 @@
           addFloatText(`🏆 击败${curChar().name}！+60💰`, bc.x, bc.y - 80, '#facc15', 23);
           spawnParticles(bc.x, bc.y - 20, '#facc15', 28, 250, 4); playSound('ko');
         }
+        return finalDmg;
       }
 
       function selectCharacter(id) {
@@ -557,14 +626,61 @@
       function closeShop() { state.shopOpen = false; shopOverlay.classList.remove('show'); }
       function buyEnergyGlove() {
         if (state.hasEnergyGlove) return;
-        if (state.money < GLOVE_PRICE) { buyGloveBtn.textContent = '钱不够！'; setTimeout(updateHUD, 800); return; }
+        if (state.money < GLOVE_PRICE) { buyGloveBtn.textContent = '钱不够'; setTimeout(updateHUD, 800); return; }
         state.money -= GLOVE_PRICE; state.hasEnergyGlove = true; playSound('ko'); closeShop();
         const bc = getBossCenter(); addFloatText('🧤 已装备能量手套！按住 F 出拳！', bc.x, bc.y - 72, '#c084fc', 20); updateHUD();
+      }
+      function buyLatiao() {
+        if (state.money < LATIAO_PRICE) { buyLatiaoBtn.textContent = '钱不够'; setTimeout(updateHUD, 700); return; }
+        state.money -= LATIAO_PRICE; state.latiao += 1; playSound('coin'); updateHUD();
+      }
+      function buyLatiaoBox() {
+        if (state.money < LATIAOBOX_PRICE) { buyLatiaoBoxBtn.textContent = '钱不够'; setTimeout(updateHUD, 700); return; }
+        state.money -= LATIAOBOX_PRICE; state.latiao += 5; playSound('ko'); updateHUD();
+      }
+      function buyToyGun() {
+        if (state.hasToyGun) return;
+        if (state.money < TOYGUN_PRICE) { buyToyGunBtn.textContent = '钱不够'; setTimeout(updateHUD, 700); return; }
+        state.money -= TOYGUN_PRICE; state.hasToyGun = true; playSound('ko'); closeShop();
+        const bc = getBossCenter(); addFloatText('🔫 已获得玩具枪！按 [6] 射击！', bc.x, bc.y - 72, '#38bdf8', 19); updateHUD();
+      }
+      function buyPistol() {
+        if (state.hasPistol) return;
+        if (state.money < PISTOL_PRICE) { buyPistolBtn.textContent = '钱不够'; setTimeout(updateHUD, 700); return; }
+        state.money -= PISTOL_PRICE; state.hasPistol = true; playSound('ko'); closeShop();
+        const bc = getBossCenter(); addFloatText('🔫 已装备手枪！按 [7] 重击！', bc.x, bc.y - 72, '#fb7185', 20); updateHUD();
+      }
+      function eatLatiao() {
+        if (state.mode === 'gameover' || state.shopOpen || state.latiao <= 0) return;
+        state.latiao -= 1; const w = canvas.clientWidth, h = canvas.clientHeight;
+        state.hp = Math.min(state.maxHp, state.hp + 15); state.latiaoBuffTimer = 8.0; state.healFlash = 0.24;
+        addFloatText('🌶️ 吃辣条！+15血 8秒增伤20%', w * 0.5, h * 0.7, '#fb923c', 19);
+        spawnParticles(w * 0.5, h * 0.76, '#fb923c', 14, 150, 3); playSound('cola'); updateHUD();
+      }
+      function attackWithToyGun() {
+        if (state.mode !== 'normal' || state.shopOpen || !state.hasToyGun) return;
+        const now = performance.now(); if (now - state.lastToyGunTime < 220) return;
+        state.lastToyGunTime = now; const bc = getBossCenter();
+        state.crit = Math.min(state.maxCrit, state.crit + 18); const dmg = damageTarget(42);
+        state.shake = 7; state.bossRecoilX = -16; state.bossHurtTimer = 0.2;
+        state.weaponAnim = { type: 'toygun', t: 0, duration: 0.18 }; state.speech = '哎哟！谁拿玩具枪滋我！'; state.speechTimer = 1.2;
+        addFloatText(`🔫 玩具枪 -${dmg}`, bc.x, bc.y - 54, '#38bdf8', 20);
+        spawnParticles(bc.x, bc.y - 18, '#38bdf8', 12, 190, 3); playSound('toygun'); checkTriggerCounterattack(); updateHUD();
+      }
+      function attackWithPistol() {
+        if (state.mode !== 'normal' || state.shopOpen || !state.hasPistol) return;
+        const now = performance.now(); if (now - state.lastPistolTime < 340) return;
+        state.lastPistolTime = now; const bc = getBossCenter();
+        state.crit = Math.min(state.maxCrit, state.crit + 35); const dmg = damageTarget(135);
+        state.shake = 16; state.bossRecoilX = 28; state.bossRecoilY = -14; state.bossHurtTimer = 0.38; state.explosionFlash = 0.2;
+        state.weaponAnim = { type: 'pistol', t: 0, duration: 0.22 }; state.speech = '哇啊！手枪威力太大了！！'; state.speechTimer = 1.4;
+        addFloatText(`🔫💥 手枪 -${dmg}!`, bc.x, bc.y - 62, '#fb7185', 24);
+        spawnParticles(bc.x, bc.y - 18, '#fb7185', 18, 250, 3.5); playSound('pistol'); checkTriggerCounterattack(); updateHUD();
       }
 
       function resetGame() {
         state.hp = 100; state.targetHps = { boss: TARGET_MAX_HP, teacher: TARGET_MAX_HP, homeroom: TARGET_MAX_HP, principal: TARGET_MAX_HP };
-        state.crit = 0; state.money = 0; state.hasEnergyGlove = false; state.defeats = 0; state.countersBroken = 0;
+        state.crit = 0; state.money = 0; state.hasEnergyGlove = false; state.hasToyGun = false; state.hasPistol = false; state.latiao = 0; state.latiaoBuffTimer = 0; state.defeats = 0; state.countersBroken = 0;
         state.mode = 'normal'; state.shopOpen = false; state.bossCounterHp = 100; state.fHeld = false; state.btnFistHeld = false;
         state.weaponAnim = null; state.fists = []; state.floatTexts = []; state.particles = []; state.bossProjectiles = [];
         state.speech = curChar().idleQuotes[0]; state.speechTimer = 2.5;
@@ -579,6 +695,17 @@
         targetHpLabel.textContent = `🎯 ${ch.name}`; targetHpText.textContent = `${tHp}/${TARGET_MAX_HP}`;
         targetHpBar.style.width = `${(tHp / TARGET_MAX_HP) * 100}%`;
         moneyText.textContent = state.money; shopMoneyText.textContent = state.money;
+        shopLatiaoCount.textContent = state.latiao;
+        btnLatiao.classList.toggle('hidden', state.latiao <= 0);
+        latiaoCount.textContent = `x${state.latiao}`;
+        btnToyGun.classList.toggle('hidden', !state.hasToyGun);
+        btnPistol.classList.toggle('hidden', !state.hasPistol);
+        buyLatiaoBtn.textContent = `💰 ${LATIAO_PRICE}`; buyLatiaoBtn.style.background = state.money >= LATIAO_PRICE ? '#facc15' : '#475569';
+        buyLatiaoBoxBtn.textContent = `💰 ${LATIAOBOX_PRICE}`; buyLatiaoBoxBtn.style.background = state.money >= LATIAOBOX_PRICE ? '#facc15' : '#475569';
+        if (state.hasToyGun) { buyToyGunBtn.textContent = '✅ 已拥有'; buyToyGunBtn.style.background = '#10b981'; buyToyGunBtn.style.color = '#fff'; }
+        else { buyToyGunBtn.textContent = `💰 ${TOYGUN_PRICE}`; buyToyGunBtn.style.background = state.money >= TOYGUN_PRICE ? '#facc15' : '#475569'; buyToyGunBtn.style.color = state.money >= TOYGUN_PRICE ? '#0f172a' : '#cbd5e1'; }
+        if (state.hasPistol) { buyPistolBtn.textContent = '✅ 已拥有'; buyPistolBtn.style.background = '#10b981'; buyPistolBtn.style.color = '#fff'; }
+        else { buyPistolBtn.textContent = `💰 ${PISTOL_PRICE}`; buyPistolBtn.style.background = state.money >= PISTOL_PRICE ? '#facc15' : '#475569'; buyPistolBtn.style.color = state.money >= PISTOL_PRICE ? '#0f172a' : '#cbd5e1'; }
 
         if (state.hasEnergyGlove) {
           buyGloveBtn.textContent = '✅ 已装备'; buyGloveBtn.style.background = '#10b981'; buyGloveBtn.style.color = '#fff';
@@ -674,6 +801,12 @@
           if (state.weaponAnim.type === 'bat') { ctx.translate(bc.x - 75, bc.y + 10); ctx.rotate(-1.6 + p * 2.5); ctx.fillStyle = '#d97706'; ctx.fillRect(0, -6, 100, 12); }
           else if (state.weaponAnim.type === 'slap') { ctx.translate(bc.x + 95 - p * 140, bc.y - 20); ctx.font = '48px sans-serif'; ctx.textAlign = 'center'; ctx.fillText('👋', 0, 0); }
           else if (state.weaponAnim.type === 'phone_boom') { ctx.globalAlpha = 1 - p; ctx.font = `${Math.round(38 + p * 36)}px sans-serif`; ctx.textAlign = 'center'; ctx.fillText('💥', bc.x, bc.y - 18); }
+          else if (state.weaponAnim.type === 'toygun' || state.weaponAnim.type === 'pistol') {
+            const isP = state.weaponAnim.type === 'pistol';
+            ctx.strokeStyle = isP ? '#fb7185' : '#38bdf8'; ctx.lineWidth = isP ? 5 : 3; ctx.globalAlpha = 1 - p;
+            ctx.beginPath(); ctx.moveTo(bc.x + 120, bc.y + 42); ctx.lineTo(bc.x, bc.y - 18); ctx.stroke();
+            ctx.font = isP ? '38px sans-serif' : '28px sans-serif'; ctx.textAlign = 'center'; ctx.fillText(isP ? '💥' : '✨', bc.x, bc.y - 18);
+          }
           else { ctx.translate(bc.x + p * 80, bc.y - 25 + p * p * 80); ctx.font = '32px sans-serif'; ctx.fillText('📱', 0, 0); }
           ctx.restore();
         }
@@ -713,6 +846,7 @@
           if (state.explosionFlash > 0) state.explosionFlash = Math.max(0, state.explosionFlash - dt * 1.4);
           if (state.healFlash > 0) state.healFlash = Math.max(0, state.healFlash - dt * 1.2);
           if (state.energyFlash > 0) state.energyFlash = Math.max(0, state.energyFlash - dt * 1.4);
+          if (state.latiaoBuffTimer > 0) state.latiaoBuffTimer = Math.max(0, state.latiaoBuffTimer - dt);
 
           if (state.mode !== 'gameover') {
             state.deskmateAutoTimer += dt;
@@ -764,6 +898,13 @@
       shopBtn.addEventListener('click', () => state.shopOpen ? closeShop() : openShop());
       closeShopBtn.addEventListener('click', closeShop);
       buyGloveBtn.addEventListener('click', buyEnergyGlove);
+      buyLatiaoBtn.addEventListener('click', buyLatiao);
+      buyLatiaoBoxBtn.addEventListener('click', buyLatiaoBox);
+      buyToyGunBtn.addEventListener('click', buyToyGun);
+      buyPistolBtn.addEventListener('click', buyPistol);
+      btnLatiao.addEventListener('click', e => { e.stopPropagation(); eatLatiao(); });
+      btnToyGun.addEventListener('click', e => { e.stopPropagation(); attackWithToyGun(); });
+      btnPistol.addEventListener('click', e => { e.stopPropagation(); attackWithPistol(); });
       btnFist.addEventListener('pointerdown', e => { e.preventDefault(); state.btnFistHeld = true; triggerFistPunch(); });
       window.addEventListener('pointerup', () => { state.btnFistHeld = false; });
       btnFist.addEventListener('pointerleave', () => { state.btnFistHeld = false; });
@@ -787,6 +928,9 @@
         else if (e.code === 'Digit2' || e.key === '2') attackWithSlap();
         else if (e.code === 'Digit3' || e.key === '3') attackWithPhone();
         else if (e.code === 'Digit4' || e.key === '4') drinkCola();
+        else if (e.code === 'Digit5' || e.key === '5') eatLatiao();
+        else if (e.code === 'Digit6' || e.key === '6') attackWithToyGun();
+        else if (e.code === 'Digit7' || e.key === '7') attackWithPistol();
       });
       window.addEventListener('keyup', e => { if (e.code === 'KeyF' || e.key === 'f' || e.key === 'F') state.fHeld = false; });
       window.addEventListener('blur', () => { state.fHeld = false; state.btnFistHeld = false; });
