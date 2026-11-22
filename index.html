@@ -27,16 +27,15 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 16px;
-      user-select: none;
+      padding: 12px;
     }
     .container {
       width: 100%;
-      max-width: 740px;
+      max-width: 780px;
       background: #1e293b;
       border: 1px solid #334155;
       border-radius: 16px;
-      padding: 16px;
+      padding: 14px;
       box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
     }
     .char-row {
@@ -48,9 +47,9 @@
       font-size: 13px;
       flex-wrap: wrap;
     }
-    .char-list, .top-tools { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+    .char-list, .top-tools { display: flex; align-items: center; gap: 5px; flex-wrap: wrap; }
     .pill-btn {
-      padding: 4px 10px;
+      padding: 4px 9px;
       border-radius: 999px;
       border: 1px solid #334155;
       background: #0f172a;
@@ -73,11 +72,11 @@
     .hud {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
+      gap: 10px;
       align-items: center;
-      padding-bottom: 12px;
+      padding-bottom: 10px;
       border-bottom: 1px solid #334155;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
       font-size: 13px;
     }
     .bar-head { display: flex; justify-content: space-between; margin-bottom: 4px; font-weight: 600; }
@@ -90,26 +89,27 @@
       border-radius: 12px;
       overflow: hidden;
       border: 1px solid #334155;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
     canvas { width: 100%; height: 100%; display: block; cursor: pointer; }
     .quick-bar {
       position: absolute;
-      bottom: 10px;
-      left: 10px;
-      right: 10px;
+      bottom: 8px;
+      left: 8px;
+      right: 8px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       gap: 6px;
       pointer-events: none;
+      flex-wrap: wrap;
     }
-    .quick-group { display: flex; gap: 6px; pointer-events: auto; }
+    .quick-group { display: flex; gap: 6px; pointer-events: auto; flex-wrap: wrap; }
     .deskmate-btn {
-      padding: 6px 10px;
+      padding: 6px 9px;
       border-radius: 8px;
       border: 1px solid rgba(251, 191, 36, 0.65);
-      background: rgba(15, 23, 42, 0.85);
+      background: rgba(15, 23, 42, 0.88);
       color: #fef3c7;
       font-weight: 700;
       font-size: 12px;
@@ -138,24 +138,25 @@
       display: none;
       position: absolute;
       inset: 0;
-      background: rgba(15, 23, 42, 0.86);
+      background: rgba(15, 23, 42, 0.88);
       flex-direction: column;
       align-items: center;
       justify-content: center;
       gap: 10px;
-      padding: 16px;
+      padding: 12px;
     }
     .overlay.show { display: flex; }
     .shop-card {
       width: 100%;
-      max-width: 340px;
+      max-width: 440px;
+      max-height: 316px;
       background: #0f172a;
       border: 1px solid #475569;
       border-radius: 12px;
-      padding: 14px;
+      padding: 12px;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 8px;
     }
     .shop-item {
       display: flex;
@@ -163,29 +164,29 @@
       align-items: center;
       gap: 10px;
       background: #1e293b;
-      border: 1px solid rgba(168, 85, 247, 0.5);
+      border: 1px solid rgba(168, 85, 247, 0.45);
       border-radius: 10px;
-      padding: 10px;
+      padding: 8px 10px;
     }
-    .controls { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+    .controls { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; }
     button.act-btn {
       border: 1px solid #334155;
       background: #0f172a;
       color: #f8fafc;
       border-radius: 10px;
-      padding: 9px 6px;
+      padding: 8px 4px;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 6px;
+      gap: 4px;
       font-weight: 600;
       font-size: 12px;
       transition: transform 0.08s, border-color 0.15s, opacity 0.15s;
     }
     button.act-btn:hover { border-color: #60a5fa; }
-    button.act-btn:active { transform: scale(0.96); }
-    .sub { font-size: 11px; color: #94a3b8; font-weight: 500; }
+    button.act-btn:active { transform: scale(0.95); }
+    .sub { font-size: 10px; color: #94a3b8; font-weight: 500; }
     .dim { opacity: 0.45; }
     @keyframes pulseDanger {
       0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.6); }
@@ -207,6 +208,7 @@
         <button data-char="teacher" class="pill-btn">📚 老师</button>
         <button data-char="homeroom" class="pill-btn">📋 班主任</button>
         <button data-char="principal" class="pill-btn">🎓 校长</button>
+        <button data-char="guard" class="pill-btn">👮 保安</button>
       </div>
       <div class="top-tools">
         <span class="money-pill">💰 <span id="money-text">0</span></span>
@@ -233,25 +235,27 @@
 
     <div class="canvas-wrap">
       <canvas id="game-canvas"></canvas>
+
       <div class="quick-bar">
         <div class="quick-group">
           <button id="deskmate-btn" class="deskmate-btn">🧑‍🎓 同桌给钱 +💰</button>
           <button id="btn-latiao" class="deskmate-btn hidden" style="border-color:rgba(251,146,60,0.8); background:rgba(124,45,18,0.9);">🌶️ 吃辣条 <span id="latiao-count">x0</span></button>
         </div>
         <div class="quick-group">
+          <button id="btn-hammer" class="deskmate-btn hidden" style="border-color:rgba(250,204,21,0.85); background:rgba(120,53,15,0.92);">🔨 <span id="hammer-label">重锤 20/20</span> <span id="hammer-charge" style="color:#fde047;">蓄0</span></button>
           <button id="btn-toygun" class="deskmate-btn hidden" style="border-color:rgba(56,189,248,0.8); background:rgba(14,116,144,0.9);">🔫 玩具枪 [6]</button>
           <button id="btn-pistol" class="deskmate-btn hidden" style="border-color:rgba(251,113,133,0.85); background:rgba(159,18,57,0.92);">🔫 手枪 [7]</button>
         </div>
       </div>
 
       <div id="counter-banner" class="banner">
-        <span id="counter-banner-text">🚨 老板反击中！血量狂掉！按住</span>
+        <span id="counter-banner-text">🚨 老板反击中！防暴盾牌来袭！按住</span>
         <kbd>F</kbd>
         <span>反击！</span>
       </div>
 
       <div id="shop-overlay" class="overlay">
-        <div class="shop-card" style="max-width:400px; max-height:310px;">
+        <div class="shop-card">
           <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #334155; padding-bottom:6px; font-weight:700;">
             <span>🛒 黑市商店</span>
             <div style="display:flex; gap:8px; align-items:center;">
@@ -259,7 +263,7 @@
               <button id="close-shop-btn" class="pill-btn">关闭</button>
             </div>
           </div>
-          <div style="overflow-y:auto; display:flex; flex-direction:column; gap:7px; padding-right:2px;">
+          <div style="overflow-y:auto; display:flex; flex-direction:column; gap:6px; padding-right:2px;">
             <div class="shop-item" style="border-color:rgba(249,115,22,0.45);">
               <div>
                 <div style="font-weight:700; color:#fdba74; font-size:13px;">🌶️ 辣条 <span class="sub">(持有: <span id="shop-latiao-count">0</span>)</span></div>
@@ -288,6 +292,13 @@
               </div>
               <button id="buy-glove-btn" class="pill-btn" style="background:#f59e0b; color:#0f172a; border:none;">💰 100</button>
             </div>
+            <div class="shop-item" style="border-color:rgba(250,204,21,0.55);">
+              <div>
+                <div style="font-weight:700; color:#fde047; font-size:13px;">🔨 重锤 [9] (耐力20)</div>
+                <div class="sub">普通跳砸20伤；蓄力满100砸出200伤+61暴击；第20次爆炸只炸敌方！</div>
+              </div>
+              <button id="buy-hammer-btn" class="pill-btn" style="background:#f59e0b; color:#0f172a; border:none;">💰 120</button>
+            </div>
             <div class="shop-item" style="border-color:rgba(244,63,94,0.5);">
               <div>
                 <div style="font-weight:700; color:#fda4af; font-size:13px;">🔫 手枪 [7]</div>
@@ -300,7 +311,7 @@
       </div>
 
       <div id="gameover-overlay" class="overlay">
-        <div id="gameover-title" style="font-size:21px; font-weight:800;">💼 你被老板反杀了！</div>
+        <div id="gameover-title" style="font-size:21px; font-weight:800;">💼 你被反杀了！</div>
         <div id="gameover-stats" style="font-size:13px; color:#cbd5e1; font-family:monospace; display:flex; gap:14px;"></div>
         <button id="restart-overlay-btn" class="act-btn" style="background:#2563eb; border-color:#3b82f6; padding:8px 18px;">🔄 再来一局</button>
       </div>
@@ -309,23 +320,27 @@
     <div class="controls">
       <button id="btn-bat" class="act-btn">
         <span>🏏</span>
-        <div style="text-align:left;"><div>棒球棍 [1]</div><div class="sub" style="color:#f59e0b;">68 伤害</div></div>
+        <div style="text-align:left;"><div>棒棍[1]</div><div class="sub" style="color:#f59e0b;">68伤</div></div>
       </button>
       <button id="btn-slap" class="act-btn">
         <span>👋</span>
-        <div style="text-align:left;"><div>扇巴掌 [2]</div><div class="sub" style="color:#38bdf8;">10 伤害</div></div>
+        <div style="text-align:left;"><div>巴掌[2]</div><div class="sub" style="color:#38bdf8;">10伤</div></div>
       </button>
       <button id="btn-phone" class="act-btn">
         <span>📱</span>
-        <div style="text-align:left;"><div>手机 [3]</div><div class="sub" style="color:#f87171;">61%炸100</div></div>
+        <div style="text-align:left;"><div>手机[3]</div><div class="sub" style="color:#f87171;">61%炸</div></div>
+      </button>
+      <button id="btn-stink" class="act-btn">
+        <span>🧪</span>
+        <div style="text-align:left;"><div>臭水[8]</div><div class="sub" style="color:#84cc16;">70+呕吐</div></div>
       </button>
       <button id="btn-cola" class="act-btn">
         <span>🥤</span>
-        <div style="text-align:left;"><div>可乐 [4]</div><div class="sub" style="color:#4ade80;">+20 血量</div></div>
+        <div style="text-align:left;"><div>可乐[4]</div><div class="sub" style="color:#4ade80;">+20血</div></div>
       </button>
       <button id="btn-fist" class="act-btn dim">
         <span id="fist-icon">👊</span>
-        <div style="text-align:left;"><div id="fist-title">拳头反击</div><div id="fist-sub" class="sub">按住 F</div></div>
+        <div style="text-align:left;"><div id="fist-title">反击</div><div id="fist-sub" class="sub">按住F</div></div>
       </button>
     </div>
   </div>
@@ -351,12 +366,16 @@
       const buyLatiaoBtn = document.getElementById('buy-latiao-btn');
       const buyLatiaoBoxBtn = document.getElementById('buy-latiaobox-btn');
       const buyToyGunBtn = document.getElementById('buy-toygun-btn');
+      const buyHammerBtn = document.getElementById('buy-hammer-btn');
       const buyPistolBtn = document.getElementById('buy-pistol-btn');
       const shopLatiaoCount = document.getElementById('shop-latiao-count');
       const closeShopBtn = document.getElementById('close-shop-btn');
       const deskmateBtn = document.getElementById('deskmate-btn');
       const btnLatiao = document.getElementById('btn-latiao');
       const latiaoCount = document.getElementById('latiao-count');
+      const btnHammer = document.getElementById('btn-hammer');
+      const hammerLabel = document.getElementById('hammer-label');
+      const hammerChargeEl = document.getElementById('hammer-charge');
       const btnToyGun = document.getElementById('btn-toygun');
       const btnPistol = document.getElementById('btn-pistol');
       const counterBanner = document.getElementById('counter-banner');
@@ -369,6 +388,7 @@
       const btnBat = document.getElementById('btn-bat');
       const btnSlap = document.getElementById('btn-slap');
       const btnPhone = document.getElementById('btn-phone');
+      const btnStink = document.getElementById('btn-stink');
       const btnCola = document.getElementById('btn-cola');
       const btnFist = document.getElementById('btn-fist');
       const fistIcon = document.getElementById('fist-icon');
@@ -377,7 +397,8 @@
       const btnReset = document.getElementById('btn-reset');
       const charBtns = document.querySelectorAll('.pill-btn[data-char]');
 
-      const TARGET_MAX_HP = 600, GLOVE_PRICE = 100, LATIAO_PRICE = 10, LATIAOBOX_PRICE = 45, TOYGUN_PRICE = 60, PISTOL_PRICE = 160;
+      const TARGET_MAX_HP = 600, GLOVE_PRICE = 100, LATIAO_PRICE = 10, LATIAOBOX_PRICE = 45, TOYGUN_PRICE = 60, HAMMER_PRICE = 120, PISTOL_PRICE = 160;
+
       const CHARACTERS = {
         boss: {
           name: '老板', plate: '总经理 · 老板', scene: 'office', suitColor: '#1e293b', shirtColor: '#f8fafc', tieColor: '#dc2626', hairStyle: 'combover', hairColor: '#334155', glasses: 'rect',
@@ -388,9 +409,9 @@
           phoneBoomQuotes: ['轰！100点爆炸伤害！', '我的头发焦了！'],
           phoneDudQuotes: ['哈哈没炸！山寨机吧？', '哑火了哈哈！'],
           gloveQuotes: ['能量手套太痛了！', '一拳100血谁顶得住！'],
-          rageQuotes: ['你被开除了！！', '全员 996！！', '年终奖归零！！'],
+          rageQuotes: ['你被开除了！！', '防暴盾牌反击！！', '全员 996！！'],
           koQuotes: ['服了服了！给涨薪！', '明天放假！'],
-          projectiles: ['加班!', '扣绩效!', '改需求!', '996!']
+          projectiles: ['加班!', '扣绩效!', '防暴盾!', '996!']
         },
         teacher: {
           name: '老师', plate: '任课 · 老师', scene: 'classroom', suitColor: '#0f766e', shirtColor: '#fef9c3', tieColor: '#0284c7', hairStyle: 'neat', hairColor: '#1e293b', glasses: 'round',
@@ -401,7 +422,7 @@
           phoneBoomQuotes: ['轰！上课带炸弹手机！', '黑板炸黑了！'],
           phoneDudQuotes: ['没炸吧？手机上交！', '写检讨！'],
           gloveQuotes: ['哪来的能量手套？！', '一拳100点太痛了！'],
-          rageQuotes: ['全班抄十遍！！', '拖堂到放学！！', '随堂测验！！'],
+          rageQuotes: ['全班抄十遍！！', '老师反击了！！', '随堂测验！！'],
           koQuotes: ['准时下课！', '今天不留作业！'],
           projectiles: ['拖堂!', '留作业!', '背课文!', '随堂考!']
         },
@@ -430,6 +451,19 @@
           rageQuotes: ['我再讲十点！！', '全校通报批评！！', '全体起立！！'],
           koQuotes: ['散会！', '明天放假一天！'],
           projectiles: ['再讲两点!', '通报批评!', '开大会!', '跑操!']
+        },
+        guard: {
+          name: '保安', plate: '门卫 · 保安队长', scene: 'gate', suitColor: '#0c4a6e', shirtColor: '#bae6fd', tieColor: '#1e3a8a', hairStyle: 'cap', hairColor: '#0f172a', glasses: 'none', hasShield: true,
+          gameoverMsg: '🛡️ 你被保安防暴盾牌撞飞了！',
+          idleQuotes: ['出示通行证！', '外来人员请登记！', '不许翻墙！！', '电瓶车停外面！'],
+          hurtBatQuotes: ['哎哟！敢袭警卫！', '举起防暴盾牌！'],
+          hurtSlapQuotes: ['啪！帽子都打歪了！', '我要吹哨子了！'],
+          phoneBoomQuotes: ['轰！防暴盾震裂了！', '违禁品！'],
+          phoneDudQuotes: ['没炸！没收违禁品！', '盾牌弹飞了！'],
+          gloveQuotes: ['能量手套太猛了！', '盾牌顶不住了！'],
+          rageQuotes: ['防暴盾牌冲锋！！', '看我重盾暴击！！', '站住别跑！！'],
+          koQuotes: ['放行放行！随便进！', '不登记了！'],
+          projectiles: ['防暴盾!', '查证件!', '登记!', '站住!']
         }
       };
 
@@ -457,6 +491,12 @@
         } else if (type === 'energy') {
           const o = ac.createOscillator(), g = ac.createGain(); o.type = 'sawtooth'; o.frequency.setValueAtTime(360, now); o.frequency.exponentialRampToValueAtTime(70, now + 0.14);
           g.gain.setValueAtTime(0.35, now); g.gain.exponentialRampToValueAtTime(0.001, now + 0.16); o.connect(g); g.connect(ac.destination); o.start(now); o.stop(now + 0.17);
+        } else if (type === 'stink') {
+          const b = ac.createBuffer(1, Math.floor(ac.sampleRate * 0.22), ac.sampleRate), d = b.getChannelData(0);
+          for (let i = 0; i < d.length; i++) d[i] = (Math.random() * 2 - 1) * Math.exp(-i / (d.length * 0.35));
+          const n = ac.createBufferSource(); n.buffer = b; const f = ac.createBiquadFilter(); f.type = 'bandpass'; f.frequency.setValueAtTime(950, now);
+          const ng = ac.createGain(); ng.gain.setValueAtTime(0.42, now); ng.gain.exponentialRampToValueAtTime(0.001, now + 0.22);
+          n.connect(f); f.connect(ng); ng.connect(ac.destination); n.start(now);
         } else if (type === 'coin') {
           [988, 1319].forEach((freq, idx) => { const o = ac.createOscillator(), g = ac.createGain(); o.type = 'sine'; o.frequency.setValueAtTime(freq, now + idx * 0.06); g.gain.setValueAtTime(0.16, now + idx * 0.06); g.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.06 + 0.12); o.connect(g); g.connect(ac.destination); o.start(now + idx * 0.06); o.stop(now + idx * 0.06 + 0.13); });
         } else if (type === 'dud' || type === 'fist') {
@@ -481,11 +521,13 @@
 
       const state = {
         charId: 'boss', hp: 100, maxHp: 100,
-        targetHps: { boss: TARGET_MAX_HP, teacher: TARGET_MAX_HP, homeroom: TARGET_MAX_HP, principal: TARGET_MAX_HP },
-        crit: 0, maxCrit: 100, money: 0, hasEnergyGlove: false, hasToyGun: false, hasPistol: false, latiao: 0, latiaoBuffTimer: 0, defeats: 0, countersBroken: 0,
+        targetHps: { boss: TARGET_MAX_HP, teacher: TARGET_MAX_HP, homeroom: TARGET_MAX_HP, principal: TARGET_MAX_HP, guard: TARGET_MAX_HP },
+        crit: 0, maxCrit: 100, money: 0, hasEnergyGlove: false, hasToyGun: false, hasPistol: false,
+        hammerDurability: 0, hammerCharge: 0, latiao: 0, latiaoBuffTimer: 0, defeats: 0, countersBroken: 0,
         mode: 'normal', shopOpen: false, bossCounterHp: 100, activeWeapon: 'bat',
         fHeld: false, btnFistHeld: false,
-        lastFistTime: 0, lastBatTime: 0, lastSlapTime: 0, lastPhoneTime: 0, lastColaTime: 0, lastToyGunTime: 0, lastPistolTime: 0, lastDeskmateClick: 0, deskmateAutoTimer: 0,
+        lastFistTime: 0, lastBatTime: 0, lastSlapTime: 0, lastPhoneTime: 0, lastStinkTime: 0, lastHammerTime: 0, lastColaTime: 0, lastToyGunTime: 0, lastPistolTime: 0, lastDeskmateClick: 0,
+        deskmateAutoTimer: 0, shieldTimer: 0, stinkTimer: 0, stinkTickTimer: 0, stinkRemainingDmg: 0, vomitTimer: 0,
         shake: 0, bossRecoilX: 0, bossRecoilY: 0, bossRecoilRot: 0,
         bossHurtTimer: 0, bossDizzyTimer: 0, slapMarkTimer: 0, sootTimer: 0, explosionFlash: 0, healFlash: 0, energyFlash: 0,
         weaponAnim: null, fists: [], floatTexts: [], particles: [], bossProjectiles: [],
@@ -529,7 +571,7 @@
 
       function selectCharacter(id) {
         if (!CHARACTERS[id] || state.charId === id) return;
-        state.charId = id; state.slapMarkTimer = 0; state.sootTimer = 0;
+        state.charId = id; state.slapMarkTimer = 0; state.sootTimer = 0; state.vomitTimer = 0;
         state.speech = state.mode === 'counterattack' ? pick(curChar().rageQuotes) : curChar().idleQuotes[0]; state.speechTimer = 2.4;
         charBtns.forEach(b => b.classList.toggle('active', b.dataset.char === id));
         updateHUD();
@@ -540,10 +582,10 @@
         const now = performance.now(); if (now - state.lastBatTime < 260) return;
         state.lastBatTime = now; state.activeWeapon = 'bat';
         const bc = getBossCenter();
-        state.crit = Math.min(state.maxCrit, state.crit + 30); damageTarget(68);
+        state.crit = Math.min(state.maxCrit, state.crit + 30); const dmg = damageTarget(68);
         state.shake = 12; state.bossRecoilX = 24; state.bossRecoilY = -10; state.bossRecoilRot = 0.25; state.bossHurtTimer = 0.32;
         state.weaponAnim = { type: 'bat', t: 0, duration: 0.24 }; state.speech = pick(curChar().hurtBatQuotes); state.speechTimer = 1.4;
-        addFloatText('🏏 -68 暴击!', bc.x, bc.y - 60, '#f59e0b', 23);
+        addFloatText(`🏏 -${dmg} 暴击!`, bc.x, bc.y - 60, '#f59e0b', 23);
         spawnParticles(bc.x - 10, bc.y - 25, '#fbbf24', 16, 220); playSound('bat'); checkTriggerCounterattack(); updateHUD();
       }
 
@@ -552,10 +594,10 @@
         const now = performance.now(); if (now - state.lastSlapTime < 130) return;
         state.lastSlapTime = now; state.activeWeapon = 'slap';
         const bc = getBossCenter();
-        state.crit = Math.min(state.maxCrit, state.crit + 10); damageTarget(10);
+        state.crit = Math.min(state.maxCrit, state.crit + 10); const dmg = damageTarget(10);
         state.shake = 5; state.bossRecoilX = -15; state.bossRecoilRot = -0.15; state.bossHurtTimer = 0.22; state.slapMarkTimer = 1.1;
         state.weaponAnim = { type: 'slap', t: 0, duration: 0.18 }; state.speech = pick(curChar().hurtSlapQuotes); state.speechTimer = 1.2;
-        addFloatText('👋 -10 暴击!', bc.x, bc.y - 55, '#38bdf8', 20);
+        addFloatText(`👋 -${dmg} 暴击!`, bc.x, bc.y - 55, '#38bdf8', 20);
         spawnParticles(bc.x + 12, bc.y - 18, '#fb7185', 10, 150); playSound('slap'); checkTriggerCounterattack(); updateHUD();
       }
 
@@ -565,10 +607,10 @@
         state.lastPhoneTime = now; state.activeWeapon = 'phone';
         const bc = getBossCenter();
         if (Math.random() < 0.61) {
-          state.crit = Math.min(state.maxCrit, state.crit + 60); damageTarget(100);
+          state.crit = Math.min(state.maxCrit, state.crit + 60); const dmg = damageTarget(100);
           state.shake = 19; state.bossRecoilX = 28; state.bossRecoilY = -16; state.bossHurtTimer = 0.5; state.sootTimer = 2.4; state.explosionFlash = 0.28;
           state.weaponAnim = { type: 'phone_boom', t: 0, duration: 0.38 }; state.speech = pick(curChar().phoneBoomQuotes); state.speechTimer = 1.7;
-          addFloatText('📱💥 爆炸！-100 伤害!', bc.x, bc.y - 62, '#ef4444', 24);
+          addFloatText(`📱💥 爆炸！-${dmg} 伤害!`, bc.x, bc.y - 62, '#ef4444', 24);
           spawnParticles(bc.x, bc.y - 16, '#f97316', 22, 260, 4); spawnParticles(bc.x, bc.y - 16, '#facc15', 16, 220, 3);
           playSound('boom'); checkTriggerCounterattack();
         } else {
@@ -577,6 +619,30 @@
           addFloatText('📱 哑火了… 没爆炸', bc.x, bc.y - 54, '#94a3b8', 17); playSound('dud');
         }
         updateHUD();
+      }
+
+      function attackWithStinkWater() {
+        if (state.mode !== 'normal' || state.shopOpen) return;
+        const now = performance.now(); if (now - state.lastStinkTime < 380) return;
+        state.lastStinkTime = now; state.activeWeapon = 'stink';
+        const bc = getBossCenter();
+        state.crit = Math.min(state.maxCrit, state.crit + 25); const dmg = damageTarget(70);
+        state.shake = 10; state.bossRecoilX = -18; state.bossRecoilY = -8; state.bossRecoilRot = -0.2;
+        state.bossHurtTimer = 0.34; state.vomitTimer = 2.8;
+        state.weaponAnim = { type: 'stink', t: 0, duration: 0.3 };
+        if (Math.random() < 0.6) {
+          state.stinkTimer = 20.0; state.stinkTickTimer = 0; state.stinkRemainingDmg = 10;
+          state.speech = pick(['呕！！太臭了快开窗！', '呕…什么生化臭水！', '救命！熏得狂吐掉血！']);
+          state.speechTimer = 2.2;
+          addFloatText(`🧪🤮 臭水 -${dmg}！呕吐+20秒毒!`, bc.x, bc.y - 62, '#84cc16', 20);
+        } else {
+          state.speech = pick(['呕！好臭的臭水！', '呕…别往我脸上泼！']);
+          state.speechTimer = 1.6;
+          addFloatText(`🧪🤮 臭水 -${dmg} (呕吐)!`, bc.x, bc.y - 58, '#a3e635', 20);
+        }
+        spawnParticles(bc.x, bc.y - 16, '#84cc16', 18, 220, 3.5);
+        spawnParticles(bc.x, bc.y - 16, '#a855f7', 10, 170, 3);
+        playSound('stink'); checkTriggerCounterattack(); updateHUD();
       }
 
       function drinkCola() {
@@ -592,9 +658,28 @@
 
       function checkTriggerCounterattack() {
         if (state.crit >= state.maxCrit && state.mode === 'normal') {
-          state.mode = 'counterattack'; state.bossCounterHp = 100; state.shake = 14;
+          state.mode = 'counterattack'; state.bossCounterHp = 100; state.shieldTimer = 0.65; state.shake = 14;
           state.speech = pick(curChar().rageQuotes); state.speechTimer = 2.5; playSound('alarm'); updateHUD();
         }
+      }
+
+      function triggerShieldAttack() {
+        if (state.mode !== 'counterattack') return;
+        const w = canvas.clientWidth, h = canvas.clientHeight, bc = getBossCenter();
+        const heavy = Math.random() < 0.6;
+        const dmg = heavy ? 60 : 2;
+        state.hp = Math.max(0, state.hp - dmg);
+        state.weaponAnim = { type: 'shield', t: 0, duration: 0.34 };
+        if (heavy) {
+          state.shake = 18; state.speech = '防暴盾牌重击！！-60！'; state.speechTimer = 1.6;
+          addFloatText('🛡️ 防暴盾牌重击！你 -60 血!', w * 0.5, h * 0.64, '#ef4444', 22);
+          spawnParticles(w * 0.5, h * 0.72, '#ef4444', 18, 220, 4); playSound('boom');
+        } else {
+          state.shake = 5; state.speech = '盾牌擦伤！-2！'; state.speechTimer = 1.2;
+          addFloatText('🛡️ 盾牌擦伤 -2 血', w * 0.5, h * 0.64, '#fbbf24', 17);
+          spawnParticles(bc.x, bc.y + 10, '#60a5fa', 8, 120, 2.5); playSound('bat');
+        }
+        updateHUD();
       }
 
       function triggerFistPunch() {
@@ -607,12 +692,12 @@
           const proc = Math.random() < 0.6;
           state.fists.push({ side: state.fistSide, t: 0, duration: 0.18, energy: proc });
           if (proc) {
-            damageTarget(100);
+            const dmg = damageTarget(100);
             if (state.mode === 'normal') state.crit = Math.min(state.maxCrit, state.crit + 25);
             else state.bossCounterHp = Math.max(0, state.bossCounterHp - 18);
             state.shake = 13; state.bossRecoilX = state.fistSide * 22; state.bossRecoilY = -12; state.bossHurtTimer = 0.22; state.energyFlash = 0.2;
             state.speech = pick(curChar().gloveQuotes); state.speechTimer = 1.2;
-            addFloatText('🧤⚡ 能量拳 -100!', bc.x + state.fistSide * 22, bc.y - 56, '#c084fc', 22);
+            addFloatText(`🧤⚡ 能量拳 -${dmg}!`, bc.x + state.fistSide * 22, bc.y - 56, '#c084fc', 22);
             spawnParticles(bc.x + state.fistSide * 14, bc.y - 16, '#c084fc', 16, 220, 3.5); playSound('energy');
           } else {
             damageTarget(10); if (state.mode === 'counterattack') state.bossCounterHp = Math.max(0, state.bossCounterHp - 8);
@@ -639,7 +724,7 @@
       function closeShop() { state.shopOpen = false; shopOverlay.classList.remove('show'); }
       function buyEnergyGlove() {
         if (state.hasEnergyGlove) return;
-        if (state.money < GLOVE_PRICE) { buyGloveBtn.textContent = '钱不够'; setTimeout(updateHUD, 800); return; }
+        if (state.money < GLOVE_PRICE) { buyGloveBtn.textContent = '钱不够'; setTimeout(updateHUD, 700); return; }
         state.money -= GLOVE_PRICE; state.hasEnergyGlove = true; playSound('ko'); closeShop();
         const bc = getBossCenter(); addFloatText('🧤 已装备能量手套！按住 F 出拳！', bc.x, bc.y - 72, '#c084fc', 20); updateHUD();
       }
@@ -657,6 +742,11 @@
         state.money -= TOYGUN_PRICE; state.hasToyGun = true; playSound('ko'); closeShop();
         const bc = getBossCenter(); addFloatText('🔫 已获得玩具枪！按 [6] 射击！', bc.x, bc.y - 72, '#38bdf8', 19); updateHUD();
       }
+      function buyHammer() {
+        if (state.money < HAMMER_PRICE) { buyHammerBtn.textContent = '钱不够'; setTimeout(updateHUD, 700); return; }
+        state.money -= HAMMER_PRICE; state.hammerDurability = 20; state.hammerCharge = 0; playSound('ko'); closeShop();
+        const bc = getBossCenter(); addFloatText('🔨 已获得重锤(耐力20)！按 [9] 跳砸！', bc.x, bc.y - 72, '#facc15', 19); updateHUD();
+      }
       function buyPistol() {
         if (state.hasPistol) return;
         if (state.money < PISTOL_PRICE) { buyPistolBtn.textContent = '钱不够'; setTimeout(updateHUD, 700); return; }
@@ -669,6 +759,35 @@
         state.hp = Math.min(state.maxHp, state.hp + 15); state.latiaoBuffTimer = 8.0; state.healFlash = 0.24;
         addFloatText('🌶️ 吃辣条！+15血 8秒增伤20%', w * 0.5, h * 0.7, '#fb923c', 19);
         spawnParticles(w * 0.5, h * 0.76, '#fb923c', 14, 150, 3); playSound('cola'); updateHUD();
+      }
+      function attackWithHammer() {
+        if (state.mode !== 'normal' || state.shopOpen || state.hammerDurability <= 0) return;
+        const now = performance.now(); if (now - state.lastHammerTime < 300) return;
+        state.lastHammerTime = now; const bc = getBossCenter();
+        state.hammerDurability -= 1;
+        if (state.hammerCharge >= 100) {
+          state.hammerCharge = 0; state.crit = Math.min(state.maxCrit, state.crit + 61);
+          const dmg = damageTarget(200);
+          state.shake = 20; state.bossRecoilY = 20; state.bossRecoilRot = 0.25; state.bossHurtTimer = 0.45; state.explosionFlash = 0.24;
+          state.weaponAnim = { type: 'hammer_super', t: 0, duration: 0.34 }; state.speech = '哇啊！！蓄力重锤200伤太狠了！'; state.speechTimer = 1.8;
+          addFloatText(`🦘🔨 满蓄力跳砸 -${dmg} (+61暴击)!`, bc.x, bc.y - 64, '#facc15', 22);
+          spawnParticles(bc.x, bc.y - 10, '#facc15', 24, 260, 4); playSound('boom');
+        } else {
+          state.hammerCharge = Math.min(100, state.hammerCharge + 25);
+          const dmg = damageTarget(20);
+          state.shake = 7; state.bossRecoilY = 10; state.bossHurtTimer = 0.2;
+          state.weaponAnim = { type: 'hammer', t: 0, duration: 0.24 }; state.speech = '哎哟！重锤砸头！'; state.speechTimer = 1.2;
+          const tip = state.hammerCharge >= 100 ? ' ⚡蓄力满!' : ` (蓄力${state.hammerCharge}/100)`;
+          addFloatText(`🔨 跳砸 -${dmg}${tip}`, bc.x, bc.y - 54, '#fbbf24', 18);
+          spawnParticles(bc.x, bc.y - 15, '#fbbf24', 10, 160, 3); playSound('bat');
+        }
+        if (state.hammerDurability <= 0) {
+          const boomDmg = damageTarget(150);
+          state.shake = 22; state.explosionFlash = 0.32; state.sootTimer = 2.0; state.hammerCharge = 0;
+          addFloatText(`🔨💥 重锤20次自爆！敌方 -${boomDmg} (我方无伤)`, bc.x, bc.y - 86, '#ef4444', 19);
+          spawnParticles(bc.x, bc.y - 16, '#ef4444', 24, 260, 4.5); playSound('boom');
+        }
+        checkTriggerCounterattack(); updateHUD();
       }
       function attackWithToyGun() {
         if (state.mode !== 'normal' || state.shopOpen || !state.hasToyGun) return;
@@ -692,9 +811,12 @@
       }
 
       function resetGame() {
-        state.hp = 100; state.targetHps = { boss: TARGET_MAX_HP, teacher: TARGET_MAX_HP, homeroom: TARGET_MAX_HP, principal: TARGET_MAX_HP };
-        state.crit = 0; state.money = 0; state.hasEnergyGlove = false; state.hasToyGun = false; state.hasPistol = false; state.latiao = 0; state.latiaoBuffTimer = 0; state.defeats = 0; state.countersBroken = 0;
-        state.mode = 'normal'; state.shopOpen = false; state.bossCounterHp = 100; state.fHeld = false; state.btnFistHeld = false;
+        state.hp = 100; state.targetHps = { boss: TARGET_MAX_HP, teacher: TARGET_MAX_HP, homeroom: TARGET_MAX_HP, principal: TARGET_MAX_HP, guard: TARGET_MAX_HP };
+        state.crit = 0; state.money = 0; state.hasEnergyGlove = false; state.hasToyGun = false; state.hasPistol = false;
+        state.hammerDurability = 0; state.hammerCharge = 0; state.latiao = 0; state.latiaoBuffTimer = 0;
+        state.stinkTimer = 0; state.stinkTickTimer = 0; state.stinkRemainingDmg = 0; state.vomitTimer = 0; state.shieldTimer = 0;
+        state.defeats = 0; state.countersBroken = 0; state.mode = 'normal'; state.shopOpen = false; state.bossCounterHp = 100;
+        state.fHeld = false; state.btnFistHeld = false;
         state.weaponAnim = null; state.fists = []; state.floatTexts = []; state.particles = []; state.bossProjectiles = [];
         state.speech = curChar().idleQuotes[0]; state.speechTimer = 2.5;
         shopOverlay.classList.remove('show'); gameoverOverlay.classList.remove('show'); updateHUD();
@@ -709,34 +831,43 @@
         targetHpBar.style.width = `${(tHp / TARGET_MAX_HP) * 100}%`;
         moneyText.textContent = state.money; shopMoneyText.textContent = state.money;
         shopLatiaoCount.textContent = state.latiao;
-        btnLatiao.classList.toggle('hidden', state.latiao <= 0);
-        latiaoCount.textContent = `x${state.latiao}`;
+
+        btnLatiao.classList.toggle('hidden', state.latiao <= 0); latiaoCount.textContent = `x${state.latiao}`;
         btnToyGun.classList.toggle('hidden', !state.hasToyGun);
         btnPistol.classList.toggle('hidden', !state.hasPistol);
+        if (state.hammerDurability > 0) {
+          btnHammer.classList.remove('hidden');
+          hammerLabel.textContent = `重锤 ${state.hammerDurability}/20`;
+          hammerChargeEl.textContent = state.hammerCharge >= 100 ? '⚡满蓄!' : `蓄${state.hammerCharge}`;
+        } else btnHammer.classList.add('hidden');
+
         buyLatiaoBtn.textContent = `💰 ${LATIAO_PRICE}`; buyLatiaoBtn.style.background = state.money >= LATIAO_PRICE ? '#facc15' : '#475569';
         buyLatiaoBoxBtn.textContent = `💰 ${LATIAOBOX_PRICE}`; buyLatiaoBoxBtn.style.background = state.money >= LATIAOBOX_PRICE ? '#facc15' : '#475569';
+        buyHammerBtn.textContent = state.hammerDurability > 0 ? `💰 ${HAMMER_PRICE} 补满` : `💰 ${HAMMER_PRICE}`;
+        buyHammerBtn.style.background = state.money >= HAMMER_PRICE ? '#facc15' : '#475569';
+        buyHammerBtn.style.color = state.money >= HAMMER_PRICE ? '#0f172a' : '#cbd5e1';
+
         if (state.hasToyGun) { buyToyGunBtn.textContent = '✅ 已拥有'; buyToyGunBtn.style.background = '#10b981'; buyToyGunBtn.style.color = '#fff'; }
         else { buyToyGunBtn.textContent = `💰 ${TOYGUN_PRICE}`; buyToyGunBtn.style.background = state.money >= TOYGUN_PRICE ? '#facc15' : '#475569'; buyToyGunBtn.style.color = state.money >= TOYGUN_PRICE ? '#0f172a' : '#cbd5e1'; }
         if (state.hasPistol) { buyPistolBtn.textContent = '✅ 已拥有'; buyPistolBtn.style.background = '#10b981'; buyPistolBtn.style.color = '#fff'; }
         else { buyPistolBtn.textContent = `💰 ${PISTOL_PRICE}`; buyPistolBtn.style.background = state.money >= PISTOL_PRICE ? '#facc15' : '#475569'; buyPistolBtn.style.color = state.money >= PISTOL_PRICE ? '#0f172a' : '#cbd5e1'; }
-
         if (state.hasEnergyGlove) {
           buyGloveBtn.textContent = '✅ 已装备'; buyGloveBtn.style.background = '#10b981'; buyGloveBtn.style.color = '#fff';
-          fistIcon.textContent = '🧤'; fistTitle.textContent = '能量手套'; fistSub.textContent = '按住F 60%'; fistSub.style.color = '#c084fc';
+          fistIcon.textContent = '🧤'; fistTitle.textContent = '手套'; fistSub.textContent = '按住F'; fistSub.style.color = '#c084fc';
         } else {
-          buyGloveBtn.textContent = `💰 ${GLOVE_PRICE} 购买`; buyGloveBtn.style.background = state.money >= GLOVE_PRICE ? '#facc15' : '#475569'; buyGloveBtn.style.color = state.money >= GLOVE_PRICE ? '#0f172a' : '#cbd5e1';
-          fistIcon.textContent = '👊'; fistTitle.textContent = '拳头反击'; fistSub.textContent = '按住 F'; fistSub.style.color = '';
+          buyGloveBtn.textContent = `💰 ${GLOVE_PRICE}`; buyGloveBtn.style.background = state.money >= GLOVE_PRICE ? '#facc15' : '#475569'; buyGloveBtn.style.color = state.money >= GLOVE_PRICE ? '#0f172a' : '#cbd5e1';
+          fistIcon.textContent = '👊'; fistTitle.textContent = '反击'; fistSub.textContent = '按住F'; fistSub.style.color = '';
         }
 
         if (state.mode === 'counterattack') {
           critLabel.innerHTML = '🔥 <span style="color:#f87171;">反击槽</span>'; critText.textContent = `${Math.ceil(state.bossCounterHp)}%`;
           critBar.style.width = `${state.bossCounterHp}%`; critBar.style.background = '#ef4444';
-          counterBannerText.textContent = `🚨 ${ch.name}反击中！血量狂掉！按住`; counterBanner.classList.add('show');
-          btnBat.classList.add('dim'); btnSlap.classList.add('dim'); btnPhone.classList.add('dim'); btnFist.classList.add('pulse-danger');
+          counterBannerText.textContent = `🚨 ${ch.name}反击中！防暴盾牌来袭！按住`; counterBanner.classList.add('show');
+          btnBat.classList.add('dim'); btnSlap.classList.add('dim'); btnPhone.classList.add('dim'); btnStink.classList.add('dim'); btnFist.classList.add('pulse-danger');
         } else {
           critLabel.textContent = '⚡ 暴击'; critText.textContent = `${state.crit}/${state.maxCrit}`;
           critBar.style.width = `${(state.crit / state.maxCrit) * 100}%`; critBar.style.background = state.crit >= 70 ? '#ef4444' : '#f59e0b';
-          counterBanner.classList.remove('show'); btnBat.classList.remove('dim'); btnSlap.classList.remove('dim'); btnPhone.classList.remove('dim');
+          counterBanner.classList.remove('show'); btnBat.classList.remove('dim'); btnSlap.classList.remove('dim'); btnPhone.classList.remove('dim'); btnStink.classList.remove('dim');
           btnFist.classList.remove('pulse-danger'); btnFist.classList.toggle('dim', !state.hasEnergyGlove);
         }
       }
@@ -762,6 +893,10 @@
           ctx.fillStyle = '#7f1d1d'; ctx.fillRect(0, 0, w, 38);
           ctx.fillStyle = '#fef08a'; ctx.font = 'bold 13px sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
           ctx.fillText('★ 全校师生大会 · 校长讲话 ★', w * 0.5, 19);
+        } else if (ch.scene === 'gate') {
+          ctx.fillStyle = '#1e3a8a'; ctx.fillRect(0, 0, w, 34);
+          ctx.fillStyle = '#e0f2fe'; ctx.font = 'bold 13px sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+          ctx.fillText('🚧 保安值班室 · 闲人免进 🚧', w * 0.5, 17);
         } else {
           const winW = 220, winH = 100, winX = w * 0.5 - winW / 2, winY = 24;
           ctx.fillStyle = '#0c192c'; ctx.strokeStyle = '#475569'; ctx.lineWidth = 3;
@@ -770,7 +905,7 @@
 
         const deskY = h - 60;
         ctx.fillStyle = ch.scene === 'office' ? '#334155' : '#78350f'; ctx.fillRect(0, deskY, w, 60);
-        ctx.fillStyle = '#b45309'; ctx.beginPath(); ctx.roundRect(w * 0.5 - 52, deskY + 16, 104, 24, 4); ctx.fill();
+        ctx.fillStyle = '#b45309'; ctx.beginPath(); ctx.roundRect(w * 0.5 - 56, deskY + 16, 112, 24, 4); ctx.fill();
         ctx.fillStyle = '#fef3c7'; ctx.font = 'bold 12px sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
         ctx.fillText(ch.plate, w * 0.5, deskY + 28);
 
@@ -788,15 +923,41 @@
         ctx.fillStyle = ch.hairColor; ctx.strokeStyle = ch.hairColor;
         if (ch.hairStyle === 'combover') { ctx.beginPath(); ctx.arc(-36, -32, 10, 0, Math.PI * 2); ctx.arc(36, -32, 10, 0, Math.PI * 2); ctx.fill(); }
         else if (ch.hairStyle === 'neat' || ch.hairStyle === 'bun') { ctx.beginPath(); ctx.arc(0, -25, 42, Math.PI * 1.04, Math.PI * 1.96); ctx.fill(); }
-        else { ctx.beginPath(); ctx.arc(-38, -28, 10, 0, Math.PI * 2); ctx.arc(38, -28, 10, 0, Math.PI * 2); ctx.fill(); }
+        else if (ch.hairStyle === 'cap') {
+          ctx.fillStyle = '#0c4a6e'; ctx.beginPath(); ctx.roundRect(-38, -68, 76, 24, [10, 10, 2, 2]); ctx.fill();
+          ctx.fillStyle = '#0f172a'; ctx.fillRect(-44, -48, 88, 6);
+          ctx.fillStyle = '#facc15'; ctx.beginPath(); ctx.arc(0, -56, 6, 0, Math.PI * 2); ctx.fill();
+        } else { ctx.beginPath(); ctx.arc(-38, -28, 10, 0, Math.PI * 2); ctx.arc(38, -28, 10, 0, Math.PI * 2); ctx.fill(); }
+
+        if (ch.hasShield) {
+          ctx.save(); ctx.fillStyle = 'rgba(56, 189, 248, 0.35)'; ctx.strokeStyle = '#1e40af'; ctx.lineWidth = 3;
+          ctx.beginPath(); ctx.roundRect(36, -8, 38, 68, 8); ctx.fill(); ctx.stroke();
+          ctx.fillStyle = '#e0f2fe'; ctx.font = 'bold 10px sans-serif'; ctx.textAlign = 'center'; ctx.fillText('防暴', 55, 26); ctx.restore();
+        }
         if (state.sootTimer > 0) { ctx.save(); ctx.globalAlpha = Math.min(0.65, state.sootTimer * 0.45); ctx.fillStyle = '#0f172a'; ctx.beginPath(); ctx.arc(0, -20, 40, 0, Math.PI * 2); ctx.fill(); ctx.restore(); }
+        if (state.stinkTimer > 0 || state.vomitTimer > 0) {
+          ctx.save(); ctx.globalAlpha = 0.35 + Math.sin(state.time * 6) * 0.1; ctx.fillStyle = '#84cc16'; ctx.beginPath(); ctx.arc(0, -20, 42, 0, Math.PI * 2); ctx.fill();
+          ctx.globalAlpha = 0.95; ctx.font = '16px sans-serif'; ctx.textAlign = 'center';
+          ctx.fillText(state.vomitTimer > 0 ? '🤮' : '🤢', -36, -52 + Math.sin(state.time * 5) * 4);
+          ctx.fillText('💨', 36, -50 + Math.cos(state.time * 5) * 4); ctx.restore();
+        }
         if (state.slapMarkTimer > 0) { ctx.save(); ctx.globalAlpha = Math.min(0.75, state.slapMarkTimer); ctx.fillStyle = '#ef4444'; ctx.beginPath(); ctx.ellipse(19, -6, 12, 9, 0.2, 0, Math.PI * 2); ctx.fill(); ctx.restore(); }
+
         ctx.strokeStyle = '#0f172a'; ctx.fillStyle = '#0f172a'; ctx.lineWidth = 2.8;
-        if (isHurt) { ctx.beginPath(); ctx.moveTo(-23, -27); ctx.lineTo(-10, -20); ctx.lineTo(-23, -13); ctx.moveTo(23, -27); ctx.lineTo(10, -20); ctx.lineTo(23, -13); ctx.stroke(); }
+        if (isHurt || state.vomitTimer > 0) { ctx.beginPath(); ctx.moveTo(-23, -27); ctx.lineTo(-10, -20); ctx.lineTo(-23, -13); ctx.moveTo(23, -27); ctx.lineTo(10, -20); ctx.lineTo(23, -13); ctx.stroke(); }
         else if (isDizzy) { ctx.font = 'bold 17px sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText('✖', -15, -21); ctx.fillText('✖', 15, -21); }
         else { ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(-15, -21, 7.5, 0, Math.PI * 2); ctx.arc(15, -21, 7.5, 0, Math.PI * 2); ctx.fill(); ctx.stroke(); ctx.fillStyle = isRage ? '#dc2626' : '#0f172a'; ctx.beginPath(); ctx.arc(-15, -21, 3.3, 0, Math.PI * 2); ctx.arc(15, -21, 3.3, 0, Math.PI * 2); ctx.fill(); }
+
         ctx.strokeStyle = '#0f172a'; ctx.lineWidth = 2.5;
-        if (isHurt) { ctx.fillStyle = '#7f1d1d'; ctx.beginPath(); ctx.ellipse(0, 4, 10, 7, 0, 0, Math.PI * 2); ctx.fill(); ctx.stroke(); }
+        if (state.vomitTimer > 0) {
+          ctx.fillStyle = '#365314'; ctx.beginPath(); ctx.ellipse(0, 4, 13, 9, 0, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+          const wave = Math.sin(state.time * 24) * 5;
+          const vGrad = ctx.createLinearGradient(0, 6, 0, 72);
+          vGrad.addColorStop(0, '#a3e635'); vGrad.addColorStop(0.6, '#65a30d'); vGrad.addColorStop(1, 'rgba(101,163,13,0.18)');
+          ctx.fillStyle = vGrad; ctx.beginPath();
+          ctx.moveTo(-10, 6); ctx.quadraticCurveTo(-16 + wave, 38, -20 - wave, 70);
+          ctx.lineTo(20 + wave, 70); ctx.quadraticCurveTo(16 - wave, 38, 10, 6); ctx.closePath(); ctx.fill();
+        } else if (isHurt) { ctx.fillStyle = '#7f1d1d'; ctx.beginPath(); ctx.ellipse(0, 4, 10, 7, 0, 0, Math.PI * 2); ctx.fill(); ctx.stroke(); }
         else if (isRage) { ctx.fillStyle = '#7f1d1d'; ctx.beginPath(); ctx.roundRect(-17, -2, 34, 14, 4); ctx.fill(); ctx.stroke(); }
         else { ctx.beginPath(); ctx.moveTo(-11, 4); ctx.quadraticCurveTo(2, 10, 13, 0); ctx.stroke(); }
         ctx.restore();
@@ -814,13 +975,22 @@
           if (state.weaponAnim.type === 'bat') { ctx.translate(bc.x - 75, bc.y + 10); ctx.rotate(-1.6 + p * 2.5); ctx.fillStyle = '#d97706'; ctx.fillRect(0, -6, 100, 12); }
           else if (state.weaponAnim.type === 'slap') { ctx.translate(bc.x + 95 - p * 140, bc.y - 20); ctx.font = '48px sans-serif'; ctx.textAlign = 'center'; ctx.fillText('👋', 0, 0); }
           else if (state.weaponAnim.type === 'phone_boom') { ctx.globalAlpha = 1 - p; ctx.font = `${Math.round(38 + p * 36)}px sans-serif`; ctx.textAlign = 'center'; ctx.fillText('💥', bc.x, bc.y - 18); }
-          else if (state.weaponAnim.type === 'toygun' || state.weaponAnim.type === 'pistol') {
+          else if (state.weaponAnim.type === 'stink') {
+            ctx.globalAlpha = 1 - p; ctx.fillStyle = 'rgba(132,204,22,0.55)'; ctx.beginPath(); ctx.arc(bc.x, bc.y - 18, 22 + p * 70, 0, Math.PI * 2); ctx.fill();
+            ctx.font = '42px sans-serif'; ctx.textAlign = 'center'; ctx.fillText('🧪', bc.x, bc.y - 18);
+          } else if (state.weaponAnim.type === 'hammer' || state.weaponAnim.type === 'hammer_super') {
+            const isS = state.weaponAnim.type === 'hammer_super';
+            ctx.translate(bc.x, bc.y - 40 - Math.sin(p * Math.PI) * (isS ? 110 : 55)); ctx.rotate(-1.1 + p * 1.9);
+            ctx.font = isS ? '68px sans-serif' : '46px sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText('🔨', 0, 0);
+          } else if (state.weaponAnim.type === 'shield') {
+            const sc = 0.8 + p * 1.5; ctx.translate(bc.x, bc.y + p * 85); ctx.scale(sc, sc); ctx.globalAlpha = 1 - p * 0.45;
+            ctx.font = '60px sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText('🛡️', 0, 0);
+          } else if (state.weaponAnim.type === 'toygun' || state.weaponAnim.type === 'pistol') {
             const isP = state.weaponAnim.type === 'pistol';
             ctx.strokeStyle = isP ? '#fb7185' : '#38bdf8'; ctx.lineWidth = isP ? 5 : 3; ctx.globalAlpha = 1 - p;
             ctx.beginPath(); ctx.moveTo(bc.x + 120, bc.y + 42); ctx.lineTo(bc.x, bc.y - 18); ctx.stroke();
             ctx.font = isP ? '38px sans-serif' : '28px sans-serif'; ctx.textAlign = 'center'; ctx.fillText(isP ? '💥' : '✨', bc.x, bc.y - 18);
-          }
-          else { ctx.translate(bc.x + p * 80, bc.y - 25 + p * p * 80); ctx.font = '32px sans-serif'; ctx.fillText('📱', 0, 0); }
+          } else { ctx.translate(bc.x + p * 80, bc.y - 25 + p * p * 80); ctx.font = '32px sans-serif'; ctx.fillText('📱', 0, 0); }
           ctx.restore();
         }
 
@@ -860,6 +1030,19 @@
           if (state.healFlash > 0) state.healFlash = Math.max(0, state.healFlash - dt * 1.2);
           if (state.energyFlash > 0) state.energyFlash = Math.max(0, state.energyFlash - dt * 1.4);
           if (state.latiaoBuffTimer > 0) state.latiaoBuffTimer = Math.max(0, state.latiaoBuffTimer - dt);
+          if (state.vomitTimer > 0) state.vomitTimer = Math.max(0, state.vomitTimer - dt);
+
+          if (state.stinkTimer > 0 && state.mode !== 'gameover') {
+            state.stinkTimer = Math.max(0, state.stinkTimer - dt);
+            state.stinkTickTimer += dt;
+            if (state.stinkTickTimer >= 2.0 && state.stinkRemainingDmg > 0) {
+              state.stinkTickTimer -= 2.0; state.stinkRemainingDmg -= 1;
+              const bc = getBossCenter(); damageTarget(1);
+              addFloatText('🧪 熏臭 -1', bc.x + (Math.random() * 44 - 22), bc.y - 46, '#a3e635', 14);
+              spawnParticles(bc.x, bc.y - 18, '#84cc16', 4, 80, 2.2); updateHUD();
+            }
+            if (state.stinkTimer <= 0) state.stinkRemainingDmg = 0;
+          }
 
           if (state.mode !== 'gameover') {
             state.deskmateAutoTimer += dt;
@@ -877,6 +1060,8 @@
 
           if (state.mode === 'counterattack') {
             state.hp = Math.max(0, state.hp - (punching ? 5.5 : 16.5) * dt);
+            state.shieldTimer -= dt;
+            if (state.shieldTimer <= 0) { state.shieldTimer = 2.8; triggerShieldAttack(); }
             projTimer += dt;
             if (projTimer >= 0.42) {
               projTimer = 0; const bc = getBossCenter();
@@ -902,6 +1087,7 @@
       btnBat.addEventListener('click', attackWithBat);
       btnSlap.addEventListener('click', attackWithSlap);
       btnPhone.addEventListener('click', attackWithPhone);
+      btnStink.addEventListener('click', attackWithStinkWater);
       btnCola.addEventListener('click', drinkCola);
       deskmateBtn.addEventListener('click', e => {
         e.stopPropagation();
@@ -914,8 +1100,10 @@
       buyLatiaoBtn.addEventListener('click', buyLatiao);
       buyLatiaoBoxBtn.addEventListener('click', buyLatiaoBox);
       buyToyGunBtn.addEventListener('click', buyToyGun);
+      buyHammerBtn.addEventListener('click', buyHammer);
       buyPistolBtn.addEventListener('click', buyPistol);
       btnLatiao.addEventListener('click', e => { e.stopPropagation(); eatLatiao(); });
+      btnHammer.addEventListener('click', e => { e.stopPropagation(); attackWithHammer(); });
       btnToyGun.addEventListener('click', e => { e.stopPropagation(); attackWithToyGun(); });
       btnPistol.addEventListener('click', e => { e.stopPropagation(); attackWithPistol(); });
       btnFist.addEventListener('pointerdown', e => { e.preventDefault(); state.btnFistHeld = true; triggerFistPunch(); });
@@ -927,6 +1115,7 @@
         else if (state.mode === 'normal') {
           if (state.activeWeapon === 'bat') attackWithBat();
           else if (state.activeWeapon === 'slap') attackWithSlap();
+          else if (state.activeWeapon === 'stink') attackWithStinkWater();
           else attackWithPhone();
         }
       });
@@ -944,6 +1133,8 @@
         else if (e.code === 'Digit5' || e.key === '5') eatLatiao();
         else if (e.code === 'Digit6' || e.key === '6') attackWithToyGun();
         else if (e.code === 'Digit7' || e.key === '7') attackWithPistol();
+        else if (e.code === 'Digit8' || e.key === '8') attackWithStinkWater();
+        else if (e.code === 'Digit9' || e.key === '9') attackWithHammer();
       });
       window.addEventListener('keyup', e => { if (e.code === 'KeyF' || e.key === 'f' || e.key === 'F') state.fHeld = false; });
       window.addEventListener('blur', () => { state.fHeld = false; state.btnFistHeld = false; });
