@@ -168,7 +168,7 @@
       border-radius: 10px;
       padding: 8px 10px;
     }
-    .controls { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; }
+    .controls { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; }
     button.act-btn {
       border: 1px solid #334155;
       background: #0f172a;
@@ -334,6 +334,10 @@
         <span>🧪</span>
         <div style="text-align:left;"><div>臭水[8]</div><div class="sub" style="color:#84cc16;">70+呕吐</div></div>
       </button>
+      <button id="btn-chalk" class="act-btn" title="点按钮或点敌人头部瞄准爆头(暴击值70)">
+        <span>✏️</span>
+        <div style="text-align:left;"><div>粉笔[Q]</div><div class="sub" style="color:#e2e8f0;">60/头70</div></div>
+      </button>
       <button id="btn-cola" class="act-btn">
         <span>🥤</span>
         <div style="text-align:left;"><div>可乐[4]</div><div class="sub" style="color:#4ade80;">+20血</div></div>
@@ -389,6 +393,7 @@
       const btnSlap = document.getElementById('btn-slap');
       const btnPhone = document.getElementById('btn-phone');
       const btnStink = document.getElementById('btn-stink');
+      const btnChalk = document.getElementById('btn-chalk');
       const btnCola = document.getElementById('btn-cola');
       const btnFist = document.getElementById('btn-fist');
       const fistIcon = document.getElementById('fist-icon');
@@ -526,7 +531,7 @@
         hammerDurability: 0, hammerCharge: 0, latiao: 0, latiaoBuffTimer: 0, defeats: 0, countersBroken: 0,
         mode: 'normal', shopOpen: false, bossCounterHp: 100, activeWeapon: 'bat',
         fHeld: false, btnFistHeld: false,
-        lastFistTime: 0, lastBatTime: 0, lastSlapTime: 0, lastPhoneTime: 0, lastStinkTime: 0, lastHammerTime: 0, lastColaTime: 0, lastToyGunTime: 0, lastPistolTime: 0, lastDeskmateClick: 0,
+        lastFistTime: 0, lastBatTime: 0, lastSlapTime: 0, lastPhoneTime: 0, lastStinkTime: 0, lastChalkTime: 0, lastHammerTime: 0, lastColaTime: 0, lastToyGunTime: 0, lastPistolTime: 0, lastDeskmateClick: 0,
         deskmateAutoTimer: 0, shieldTimer: 0, stinkTimer: 0, stinkTickTimer: 0, stinkRemainingDmg: 0, vomitTimer: 0,
         shake: 0, bossRecoilX: 0, bossRecoilY: 0, bossRecoilRot: 0,
         bossHurtTimer: 0, bossDizzyTimer: 0, slapMarkTimer: 0, sootTimer: 0, explosionFlash: 0, healFlash: 0, energyFlash: 0,
@@ -643,6 +648,32 @@
         spawnParticles(bc.x, bc.y - 16, '#84cc16', 18, 220, 3.5);
         spawnParticles(bc.x, bc.y - 16, '#a855f7', 10, 170, 3);
         playSound('stink'); checkTriggerCounterattack(); updateHUD();
+      }
+
+      function attackWithChalk(aimHead = false) {
+        if (state.mode !== 'normal' || state.shopOpen) return;
+        const now = performance.now(); if (now - state.lastChalkTime < 220) return;
+        state.lastChalkTime = now; state.activeWeapon = 'chalk';
+        const bc = getBossCenter();
+        const isHead = aimHead || Math.random() < 0.35;
+        if (isHead) {
+          state.crit = Math.min(state.maxCrit, state.crit + 70); const dmg = damageTarget(70);
+          state.shake = 12; state.bossRecoilX = 18; state.bossRecoilY = -12; state.bossRecoilRot = 0.22; state.bossHurtTimer = 0.32;
+          state.weaponAnim = { type: 'chalk_head', t: 0, duration: 0.22 };
+          state.speech = pick(['哎哟！粉笔正中脑门！', '好准！砸我头上了！', '谁扔的粉笔头！！']); state.speechTimer = 1.5;
+          addFloatText(`✏️🎯 粉笔爆头 -${dmg} (+70暴击)!`, bc.x, bc.y - 64, '#facc15', 21);
+          spawnParticles(bc.x, bc.y - 26, '#f8fafc', 18, 220, 3); spawnParticles(bc.x, bc.y - 26, '#facc15', 8, 170, 2.5);
+          playSound('bat');
+        } else {
+          state.crit = Math.min(state.maxCrit, state.crit + 10); const dmg = damageTarget(60);
+          state.shake = 6; state.bossRecoilX = -12; state.bossHurtTimer = 0.2;
+          state.weaponAnim = { type: 'chalk', t: 0, duration: 0.2 };
+          state.speech = pick(['啪！一身粉笔灰！', '别乱扔粉笔！', '衣服全白了！']); state.speechTimer = 1.2;
+          addFloatText(`✏️ 粉笔 -${dmg} (+10暴击)`, bc.x, bc.y - 46, '#e2e8f0', 19);
+          spawnParticles(bc.x, bc.y + 10, '#f8fafc', 12, 160, 2.5);
+          playSound('slap');
+        }
+        checkTriggerCounterattack(); updateHUD();
       }
 
       function drinkCola() {
@@ -863,11 +894,11 @@
           critLabel.innerHTML = '🔥 <span style="color:#f87171;">反击槽</span>'; critText.textContent = `${Math.ceil(state.bossCounterHp)}%`;
           critBar.style.width = `${state.bossCounterHp}%`; critBar.style.background = '#ef4444';
           counterBannerText.textContent = `🚨 ${ch.name}反击中！防暴盾牌来袭！按住`; counterBanner.classList.add('show');
-          btnBat.classList.add('dim'); btnSlap.classList.add('dim'); btnPhone.classList.add('dim'); btnStink.classList.add('dim'); btnFist.classList.add('pulse-danger');
+          btnBat.classList.add('dim'); btnSlap.classList.add('dim'); btnPhone.classList.add('dim'); btnStink.classList.add('dim'); btnChalk.classList.add('dim'); btnFist.classList.add('pulse-danger');
         } else {
           critLabel.textContent = '⚡ 暴击'; critText.textContent = `${state.crit}/${state.maxCrit}`;
           critBar.style.width = `${(state.crit / state.maxCrit) * 100}%`; critBar.style.background = state.crit >= 70 ? '#ef4444' : '#f59e0b';
-          counterBanner.classList.remove('show'); btnBat.classList.remove('dim'); btnSlap.classList.remove('dim'); btnPhone.classList.remove('dim'); btnStink.classList.remove('dim');
+          counterBanner.classList.remove('show'); btnBat.classList.remove('dim'); btnSlap.classList.remove('dim'); btnPhone.classList.remove('dim'); btnStink.classList.remove('dim'); btnChalk.classList.remove('dim');
           btnFist.classList.remove('pulse-danger'); btnFist.classList.toggle('dim', !state.hasEnergyGlove);
         }
       }
@@ -970,9 +1001,25 @@
           ctx.fillStyle = isRage ? '#b91c1c' : '#0f172a'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(state.speech, bx + bw / 2, by + bh / 2);
         }
 
+        if (state.activeWeapon === 'chalk' && state.mode === 'normal') {
+          ctx.save(); ctx.strokeStyle = 'rgba(250, 204, 21, 0.8)'; ctx.lineWidth = 2; ctx.setLineDash([4, 3]);
+          ctx.beginPath(); ctx.arc(bc.x, bc.y - 24, 26, 0, Math.PI * 2); ctx.stroke();
+          ctx.setLineDash([]);
+          ctx.beginPath();
+          ctx.moveTo(bc.x - 32, bc.y - 24); ctx.lineTo(bc.x - 16, bc.y - 24);
+          ctx.moveTo(bc.x + 16, bc.y - 24); ctx.lineTo(bc.x + 32, bc.y - 24);
+          ctx.moveTo(bc.x, bc.y - 56); ctx.lineTo(bc.x, bc.y - 40);
+          ctx.moveTo(bc.x, bc.y - 8); ctx.lineTo(bc.x, bc.y + 8); ctx.stroke(); ctx.restore();
+        }
+
         if (state.weaponAnim) {
           const p = Math.min(1, state.weaponAnim.t / state.weaponAnim.duration); ctx.save();
-          if (state.weaponAnim.type === 'bat') { ctx.translate(bc.x - 75, bc.y + 10); ctx.rotate(-1.6 + p * 2.5); ctx.fillStyle = '#d97706'; ctx.fillRect(0, -6, 100, 12); }
+          if (state.weaponAnim.type === 'chalk' || state.weaponAnim.type === 'chalk_head') {
+            const ty = state.weaponAnim.type === 'chalk_head' ? bc.y - 26 : bc.y + 14;
+            ctx.translate(bc.x + 125 - p * 125, ty + 48 - p * 48); ctx.rotate(p * 8);
+            ctx.fillStyle = '#f8fafc'; ctx.strokeStyle = '#cbd5e1'; ctx.lineWidth = 1.5;
+            ctx.fillRect(-15, -4, 30, 8); ctx.strokeRect(-15, -4, 30, 8);
+          } else if (state.weaponAnim.type === 'bat') { ctx.translate(bc.x - 75, bc.y + 10); ctx.rotate(-1.6 + p * 2.5); ctx.fillStyle = '#d97706'; ctx.fillRect(0, -6, 100, 12); }
           else if (state.weaponAnim.type === 'slap') { ctx.translate(bc.x + 95 - p * 140, bc.y - 20); ctx.font = '48px sans-serif'; ctx.textAlign = 'center'; ctx.fillText('👋', 0, 0); }
           else if (state.weaponAnim.type === 'phone_boom') { ctx.globalAlpha = 1 - p; ctx.font = `${Math.round(38 + p * 36)}px sans-serif`; ctx.textAlign = 'center'; ctx.fillText('💥', bc.x, bc.y - 18); }
           else if (state.weaponAnim.type === 'stink') {
@@ -1088,6 +1135,7 @@
       btnSlap.addEventListener('click', attackWithSlap);
       btnPhone.addEventListener('click', attackWithPhone);
       btnStink.addEventListener('click', attackWithStinkWater);
+      btnChalk.addEventListener('click', () => attackWithChalk(false));
       btnCola.addEventListener('click', drinkCola);
       deskmateBtn.addEventListener('click', e => {
         e.stopPropagation();
@@ -1109,14 +1157,19 @@
       btnFist.addEventListener('pointerdown', e => { e.preventDefault(); state.btnFistHeld = true; triggerFistPunch(); });
       window.addEventListener('pointerup', () => { state.btnFistHeld = false; });
       btnFist.addEventListener('pointerleave', () => { state.btnFistHeld = false; });
-      canvas.addEventListener('pointerdown', () => {
+      canvas.addEventListener('pointerdown', e => {
         if (state.shopOpen) return;
         if (state.mode === 'counterattack') triggerFistPunch();
         else if (state.mode === 'normal') {
           if (state.activeWeapon === 'bat') attackWithBat();
           else if (state.activeWeapon === 'slap') attackWithSlap();
           else if (state.activeWeapon === 'stink') attackWithStinkWater();
-          else attackWithPhone();
+          else if (state.activeWeapon === 'chalk') {
+            const rect = canvas.getBoundingClientRect();
+            const px = e.clientX - rect.left, py = e.clientY - rect.top;
+            const bc = getBossCenter();
+            attackWithChalk(Math.hypot(px - bc.x, py - (bc.y - 22)) <= 50);
+          } else attackWithPhone();
         }
       });
       btnReset.addEventListener('click', resetGame);
@@ -1135,6 +1188,7 @@
         else if (e.code === 'Digit7' || e.key === '7') attackWithPistol();
         else if (e.code === 'Digit8' || e.key === '8') attackWithStinkWater();
         else if (e.code === 'Digit9' || e.key === '9') attackWithHammer();
+        else if (e.code === 'KeyQ' || e.key === 'q' || e.key === 'Q') attackWithChalk(false);
       });
       window.addEventListener('keyup', e => { if (e.code === 'KeyF' || e.key === 'f' || e.key === 'F') state.fHeld = false; });
       window.addEventListener('blur', () => { state.fHeld = false; state.btnFistHeld = false; });
